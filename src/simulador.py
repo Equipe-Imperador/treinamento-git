@@ -4,10 +4,12 @@ import random
 # Importem as funções de alarme aqui em baixo
 import src.alarme_velocidade as ver_velocidade
 import src.alarmerpm as aviso_RPM
+import src.alarme_bateria as alarme_bateria
+import src.alarme_temperatura as alarme_temperatura
 # ===========================================
 
 
-import src.alarme_bateria as alarme_bateria
+
 
 # Variáveis globais para a Fase 2 (Linear)
 # Na Fase 1, elas ainda não serão usadas.
@@ -51,6 +53,7 @@ def exibir_painel(rpm, velocidade, temp_cvt, bateria):
     ver_velocidade(velocidade)
     alarme_bateria(bateria)
     aviso_RPM(rpm)
+    alarme_temperatura(temp_cvt)
     # ===================================
 
     print("Aperte Ctrl+C para sair.\n")
