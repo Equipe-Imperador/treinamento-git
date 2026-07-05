@@ -1,9 +1,6 @@
 # treinamento-git
 Repositório para o treinamento de integrantes na utilização do Git e GitHub
 
-Vídeo de configuração de ambiente:
-
-Vídeo aula:
+🎥 [Vídeo Aula](https://youtu.be/aNkoWJA_6a0)
 
 Aula ministrada pelo lambari no dia 05/07/2026
-Benjamin esteve aqui
