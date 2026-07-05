@@ -7,6 +7,8 @@ import src.alarmerpm as aviso_RPM
 # ===========================================
 
 
+import src.alarme_bateria as alarme_bateria
+
 # Variáveis globais para a Fase 2 (Linear)
 # Na Fase 1, elas ainda não serão usadas.
 rpm_atual = 1000
@@ -47,6 +49,7 @@ def exibir_painel(rpm, velocidade, temp_cvt, bateria):
 
     # Coloquem os alarmes aqui em baixo
     ver_velocidade(velocidade)
+    alarme_bateria(bateria)
     aviso_RPM(rpm)
     # ===================================
 
