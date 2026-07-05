@@ -1,0 +1,471 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+\usetheme{Madrid}
+\usecolortheme{default}
+
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+
+% =========================================================
+% PALETA DE CORES - EQUIPE IMPERADOR
+% =========================================================
+\definecolor{imperadorblue}{RGB}{8, 24, 50}      % Azul escuro (Fundo e painéis)
+\definecolor{imperadoryellow}{RGB}{244, 195, 0}  % Amarelo vibrante (Destaques e títulos)
+\definecolor{codebg}{RGB}{240, 242, 245}         % Fundo dos blocos de código
+
+% Configuração das cores do Beamer
+\setbeamercolor{palette primary}{bg=imperadorblue,fg=white}
+\setbeamercolor{palette secondary}{bg=imperadoryellow,fg=imperadorblue}
+\setbeamercolor{palette tertiary}{bg=imperadorblue,fg=white}
+\setbeamercolor{titlelike}{parent=palette primary,fg=imperadoryellow}
+\setbeamercolor{frametitle}{bg=imperadorblue,fg=imperadoryellow}
+\setbeamercolor{structure}{fg=imperadorblue}
+\setbeamercolor{item}{fg=imperadoryellow}
+\setbeamercolor{block title}{bg=imperadoryellow,fg=imperadorblue}
+\setbeamercolor{block body}{bg=imperadorblue!5,fg=black}
+
+% Configuração para estilização dos blocos de código (Terminal)
+\lstset{
+    backgroundcolor=\color{codebg},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    keywordstyle=\color{imperadorblue}\bfseries,
+    stringstyle=\color{imperadorblue!80},
+    frame=single,
+    rulecolor=\color{imperadorblue!30},
+    frameround=tttt,
+    showstringspaces=false
+}
+
+% =========================================================
+% METADADOS DA APRESENTAÇÃO
+% =========================================================
+\title[Curso de Git - Imperador]{Curso prático de Git}
+\subtitle{Do Básico ao Avançado}
+\author{Lambari}
+\institute{Equipe Imperador - UTFPR Curitiba}
+\date{Julho 2026}
+
+\begin{document}
+
+% Slide de Título
+\begin{frame}
+    \titlepage
+\end{frame}
+
+% Slide de Agenda
+\begin{frame}{Tópicos}
+    \tableofcontents
+\end{frame}
+
+% =========================================================
+% MÓDULO 1
+% =========================================================
+\section{Módulo 1: Básico (Github, repositório, etc.)}
+
+\begin{frame}{Módulo 1: Básico (Github, repositório, etc.)}
+    \begin{block}{Objetivo}
+        Compreender a filosofia do Git, configurar o ambiente local e dominar o fluxo de trabalho essencial para arquivos individuais.
+    \end{block}
+    \vspace{0.5cm}
+    \textbf{Tópicos abordados:}
+    \begin{itemize}
+        \item O que é o Git vs. GitHub
+        \item Configuração inicial do ambiente
+        \item Ciclo de vida de um arquivo
+        \item Comandos fundamentais locais e remotos
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Git vs. GitHub}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \textbf{Git}
+            \begin{itemize}
+                \item Sistema de controle de versão \textbf{local} e distribuído.
+                \item Funciona inteiramente no terminal do computador.
+                \item Tira "fotos" (commits) do histórico do código.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \textbf{GitHub / GitLab}
+            \begin{itemize}
+                \item Plataforma de hospedagem \textbf{na nuvem}.
+                \item Interface gráfica para gerenciar repositórios.
+                \item Adiciona ferramentas de colaboração (Pull Requests).
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Configuração Inicial do Ambiente}
+    Antes do primeiro commit, o Git precisa saber quem é você para registrar a autoria corretamente.
+    \vspace{0.3cm}
+    \begin{lstlisting}[language=bash]
+# Definir seu nome globalmente
+$ git config --global user.name "Seu Nome Completo"
+
+# Definir seu e-mail de trabalho
+$ git config --global user.email "seu_email@imperador.com"
+
+# Verificar configuracoes ativas
+$ git config --list
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}{O Ciclo de Vida dos Arquivos}
+    No Git, os arquivos passam por estados específicos antes de serem consolidados:
+    \vspace{0.3cm}
+    \begin{description}
+        \item[\textcolor{imperadorblue}{\textbf{Untracked}}] Arquivo novo no diretório, o Git ainda não o monitora.
+        \item[\textcolor{imperadorblue}{\textbf{Modified}}] Arquivo monitorado que sofreu alterações locais.
+        \item[\textcolor{imperadorblue}{\textbf{Staged}}] Arquivo selecionado e pronto para fazer parte do próximo commit.
+        \item[\textcolor{imperadorblue}{\textbf{Committed}}] Alterações salvas com segurança no banco de dados local.
+    \end{description}
+\end{frame}
+
+\begin{frame}[fragile]{Iniciando um Repositório: git init}
+    O comando \texttt{git init} é utilizado para criar um novo repositório Git vazio ou reinicializar um já existente.
+    \vspace{0.3cm}
+    
+    \textbf{Atenção:} Na prática do dia a dia, é mais comum criarmos o repositório diretamente em uma plataforma como o \textbf{GitHub} e depois clonarmos para a nossa máquina, tornando o \texttt{git init} um comando raramente utilizado manualmente pela nossa equipe.
+    
+    \vspace{0.3cm}
+    \begin{lstlisting}[language=bash]
+# Inicializar um repositorio vazio na pasta atual
+$ git init
+# Clonar um repositorio da nuvem na past atual
+$ git clone <URL>
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Verificando o Estado: git status}
+    O comando \texttt{git status} exibe o estado do diretório de trabalho e da área de preparação (staging area).
+    \vspace{0.3cm}
+    
+    Ele permite ver quais arquivos foram modificados, quais estão prontos para o próximo commit e quais ainda não estão sendo rastreados pelo Git. É o seu "radar" de desenvolvimento.
+    \vspace{0.3cm}
+    \begin{lstlisting}[language=bash]
+# Verificar o estado atual dos arquivos e modificacoes
+$ git status
+    \end{lstlisting}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\linewidth]{GitStatus.png}
+        \label{fig:enter-label}
+    \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]{Preparando Arquivos: git add}
+    O comando \texttt{git add} adiciona uma alteração do seu diretório de trabalho à área de preparação (staging area).
+    \vspace{0.3cm}
+    
+    Isso avisa ao Git que você quer incluir as atualizações de um arquivo específico no próximo commit.
+    \vspace{0.3cm}
+    \begin{lstlisting}[language=bash]
+# Adicionar o script modificado para a area de preparacao
+$ git add sensor_velocidade.cpp
+# Adiciona todas as modificações para a area de preparacao
+$ git add .
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Salvando as Alterações: git commit}
+    O comando \texttt{git commit} captura um "instantâneo" das alterações que estão atualmente na área de preparação (staging area).
+    \vspace{0.3cm}
+    
+    Todo commit deve ser acompanhado de uma mensagem clara e descritiva para explicar o motivo da alteração no histórico do projeto.
+    \vspace{0.3cm}
+    \begin{lstlisting}[language=bash]
+# Salvar permanentemente o estado atual com uma breve ferramentas
+$ git commit -m "feat(sensores): adiciona leitura de pulsos do sensor Hall"
+# Salvar permanentemente o estado atual com uma mensagem mais detalhada em um editor de texto
+$ git commit 
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Trabalhando com o Repositório Remoto}
+    Sincronização com o servidor em nuvem da equipe:
+    \vspace{0.2cm}
+    \begin{lstlisting}[language=bash]
+# Clonar um repositorio existente para sua maquina local
+$ git clone <URL>
+
+# Enviar seus commits locais para a nuvem
+$ git push origin main 
+
+# Buscar as novidades da nuvem e atualizar seu codigo local
+$ git pull origin main
+    \end{lstlisting}
+\end{frame}
+
+% =========================================================
+% MÓDULO 2
+% =========================================================
+\section{Módulo 2: Intermediário (Branches, Merges e .gitignore)}
+
+\begin{frame}{Módulo 2: Intermediário (Branches, Merges e .gitignore)}
+    \begin{block}{Objetivo}
+        Aprender a trabalhar em paralelo usando ramificações, integrar desenvolvimentos diferentes e gerenciar arquivos descartáveis.
+    \end{block}
+    \vspace{0.5cm}
+    \textbf{Tópicos abordados:}
+    \begin{itemize}
+        \item Conceito e comandos de Branches
+        \item Integração de código com Merge
+        \item Resolução controlada de conflitos
+        \item Configuração estratégica do \texttt{.gitignore}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{O Propósito das Branches}
+    Uma \textbf{branch} (ramificação) é uma linha de desenvolvimento independente. Funciona como um "universo paralelo" onde você pode alterar arquivos livremente sem afetar o código oficial (a branch \texttt{main}).
+    \vspace{0.3cm}
+    
+    \textbf{Por que usar?}
+    \begin{itemize}
+        \item \textbf{Isolamento:} Evita que seu código em desenvolvimento quebre a versão principal.
+        \item \textbf{Trabalho Paralelo:} Vários membros da equipe podem programar simultaneamente.
+        \item \textbf{Organização:} Permite revisar a funcionalidade antes de integrá-la.
+    \end{itemize}
+    \vspace{0.2cm}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\linewidth]{GitBranches.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]{Ramificações (Branches)}
+    Uma branch isola o seu desenvolvimento. 
+    
+    \textbf{Regra na equipe:} Nunca faça commits diretamente na branch \texttt{main}.
+    \vspace{0.2cm}
+    \begin{lstlisting}[language=bash]
+# Lista as branches que voce ja utilizou nesse repositorio
+$ git branch 
+
+# Deletar uma branch do seu computador
+$ git branch -D <nome da branch>
+
+# Alterar para uma branch
+$ git switch feature/filtros-sinais
+
+# Comando alternativo (mais antigo) para alterar de branch
+$ git checkout feature/filtros-sinais
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Fusão de Código: Unindo Forças (Merge)}
+    Como integrar o trabalho finalizado de volta à linha principal do projeto:
+    \vspace{0.2cm}
+    \begin{lstlisting}[language=bash]
+# 1. Voltar para a branch principal
+$ git switch main
+
+# 2. Atualizar a main local com o servidor
+$ git pull origin main
+
+# 3. Fundir branches (feito no PR do GitHub)
+$ git merge feature/filtros-sinais
+
+# 4. Remover a branch local que ja foi integrada
+$ git branch -d feature/filtros-sinais
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Lidando com Conflitos de Frente}
+    Conflitos ocorrem quando duas pessoas alteram a mesma linha do mesmo arquivo. O Git pausa o processo e exibe os marcadores:
+    \vspace{0.2cm}
+    \begin{lstlisting}[language=python]
+<<<<<<< HEAD
+limite_rpm = 3800  # Codigo atual na Main
+=======
+limite_rpm = 4000  # Alteracao feita na sua Branch
+>>>>>>> feature/ajuste-motor
+    \end{lstlisting}
+    \vspace{0.1cm}
+    \textbf{Resolução:} Abra o arquivo, analise com a equipe qual lógica deve prevalecer, remova os marcadores (\texttt{<<<}, \texttt{===}, \texttt{>>>}), salve, execute \texttt{git add} e finalize com \texttt{git commit}.
+\end{frame}
+
+\begin{frame}[fragile]{O Arquivo .gitignore}
+    Evite que arquivos gerados por compilação, logs temporários ou pastas de IDEs sujem o histórico do repositório.
+    \vspace{0.2cm}
+    Basta criar um arquivo chamado \texttt{.gitignore} na raiz com as extensões ou pastas mapeadas:
+    \vspace{0.2cm}
+    \begin{lstlisting}[language=bash]
+# Ignorar binarios e objetos de compilacao
+*.o
+*.bin
+*.elf
+build/
+.vscode/
+/logs/*.csv
+    \end{lstlisting}
+\end{frame}
+
+% =========================================================
+% MÓDULO 3
+% =========================================================
+\section{Módulo 3: Avançado (Revisão e Git Rebase)}
+
+\begin{frame}{Módulo 3: Avançado (Revisão e Git Rebase)}
+    \begin{block}{Objetivo}
+        Dominar ferramentas avançadas para manipulação fina do histórico, limpeza de árvores de commits e recuperação de dados perdidos.
+    \end{block}
+    \vspace{0.5cm}
+    \textbf{Tópicos abordados:}
+    \begin{itemize}
+        \item Armazenamento temporário com \texttt{git stash}
+        \item Organização linear com \texttt{git rebase}
+        \item Importação cirúrgica com \texttt{git cherry-pick}
+        \item Recuperação extrema com \texttt{git reflog}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Guardando Trabalho Incompleto: git stash}
+    Se você estiver trabalhando em um código complexo e surgir um bug urgente na pista que exige troca imediata de branch:
+    \vspace{0.2cm}
+    \begin{lstlisting}[language=bash]
+# Salva o progresso inacabado em um compartimento isolado e limpa o terminal
+$ git stash save -m "Progressodo desenvolvimento da telemetria"
+
+# Agora voce esta livre para alternar para a main e corrigir o problema
+$ git switch main
+# ... correcao do bug ...
+
+# De volta à sua branch de trabalho, resgate as modificacoes salvas
+$ git switch feature/telemetria
+$ git stash pop
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Histórico Linear: Rebase vs. Merge}
+    Enquanto o \texttt{merge} cria um commit de junção explícito, o \texttt{rebase} reposiciona os commits da sua branch diretamente no topo da branch de destino, gerando um histórico limpo e sem ramificações visuais complexas.
+    \vspace{0.2cm}
+    \begin{lstlisting}[language=bash]
+# Atualiza sua branch aplicando suas modificacoes sobre a main atualizada
+$ git switch feature/minha-feature
+$ git rebase main
+    \end{lstlisting}
+    \vspace{0.1cm}
+    \textbf{Aviso importante:} Nunca utilize rebase em branches públicas/compartilhadas com outros membros da equipe para evitar dessincronização de históricos.
+\end{frame}
+
+\begin{frame}[fragile]{A Caixa-Preta do Git: git reflog}
+    Se uma branch foi deletada acidentalmente ou um comando de reset removeu arquivos válidos, o \texttt{reflog} salva o dia registrando cada alteração local do ponteiro HEAD.
+    \vspace{0.2cm}
+    \begin{lstlisting}[language=bash]
+# Exibir o historico completo de operacoes locais
+$ git reflog
+
+# Saida esperada no terminal:
+# e45a2d1 HEAD@{0}: reset: moving to HEAD~1
+# a78b112 HEAD@{1}: commit: Adiciona calculo de G-Force
+
+# Retornar o estado do projeto exatamente para o instante anterior ao erro:
+$ git reset --hard a78b112
+    \end{lstlisting}
+\end{frame}
+
+% =========================================================
+% MÓDULO 4
+% =========================================================
+\section{Módulo 4: O Processo da Equipe (Implementação)}
+
+\begin{frame}{Módulo 4: O Processo da Equipe (Implementação)}
+    \begin{block}{Objetivo}
+        Estabelecer a metodologia de trabalho da equipe. Padronizar a integração de código para garantir que o repositório sempre esteja funcional e validado.
+    \end{block}
+    \vspace{0.5cm}
+    \textbf{Tópicos abordados:}
+    \begin{itemize}
+        \item O modelo GitHub Flow adaptado ao ambiente competitivo
+        \item Pull Requests (PRs) e Code Review
+        \item Padronização com Commits Semânticos
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Fluxo Operacional: GitHub Flow}
+    Para a dinâmica veloz, adota-se o formato simplificado:
+    \vspace{0.3cm}
+    \begin{enumerate}
+        \item A branch \texttt{main} reflete o software funcional e testado no protótipo.
+        \item Desenvolvimentos ocorrem em branches nomeadas conforme o escopo (ex: \texttt{feature/sensor-freio}).
+        \item Commits são enviados para o servidor remoto.
+        \item A integração final exige a abertura de um \textbf{Pull Request} (PR).
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Padronização de Branches (Parte 1)}
+    Para manter a organização do repositório, adotamos uma convenção para as branches principais:
+    \vspace{0.3cm}
+    \begin{itemize}
+        \item \textbf{\texttt{main}}: Contém o código testado e 100\% funcional, pronto para ir para o protótipo.
+        \item \textbf{\texttt{main/YYYY-MM-DD}}: Branches de "snapshot". Salvam o estado exato do código em dias críticos (ex: competições), como \texttt{main/2026-07-05}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Padronização de Branches (Parte 2)}
+    As branches temporárias (de trabalho diário) seguem prefixos específicos que indicam o seu propósito:
+    \vspace{0.3cm}
+    \begin{itemize}
+        \item \textbf{\texttt{feature/}}: Utilizadas para desenvolvimentos de funções (ex: \texttt{feature/leitura-gps}).
+        \item \textbf{\texttt{bug/}}: Utilizadas exclusivamente para correção de bugs no código (ex: \texttt{bug/falha-telemetria}).
+        \item \textbf{\texttt{test/}}: Branches para desenvolver códigos voltados para testes (ex: \texttt{test/validacao-inversor}).
+        \item \textbf{\texttt{doc/}}: Utilizadas exclusivamente para atualização de documentação em uma branch.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Segurança do Código: Pull Requests e Code Review}
+    \begin{itemize}
+        \item \textbf{Branches Protegidas:} O envio direto de commits para a branch \texttt{main} deve ser bloqueado nas configurações do servidor remoto.
+        \item \textbf{Revisão Técnica obrigatória:} Todo Pull Request precisa ser revisado e validado por pelo menos um outro integrante da área de eletrônica antes de ser integrado.
+        \item \textbf{Impacto Direto:}
+        \begin{itemize}
+            \item Previne que falhas de sintaxe cheguem ao carro antes dos testes de campo.
+            \item Garante que mais de um membro da equipe domine o funcionamento daquela seção do software.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Mensagens de Commit Padronizadas}
+    Evite mensagens genéricas como "ajustes" ou "agora vai". Adote a convenção de Commits Semânticos:
+    \vspace{0.2cm}
+    \begin{lstlisting}[language=bash]
+# Estrutura padrao: tipo(subsistema): descricao em letras minusculas
+$ git commit -m "feat(telemetria): adiciona transmissao via modulo LoRa"
+$ git commit -m "fix(dashboard): corrige escala do grafico de RPM"
+$ git commit -m "docs(readme): atualiza esquema de pinagem do microcontrolador"
+$ git commit -m "test(pwt): otimizacao cvt"
+    \end{lstlisting}
+    \vspace{0.1cm}
+    \textbf{Tipos recomendados:}
+    \begin{itemize}
+        \item \textbf{feat}: Implementação de uma nova funcionalidade ou bloco de código.
+        \item \textbf{fix}: Correção de uma falha ou bug operacional.
+        \item \textbf{docs}: Alterações estritas na documentação técnica ou comentários.
+        \item \textbf{test}: Código de um teste específico para um ou mais subsistemas.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Passo a Passo do Desenvolvimento}
+    Fluxo de trabalho ideal do início ao fim de uma nova tarefa:
+    \vspace{0.2cm}
+    \begin{enumerate}
+        \item \textbf{Criar a branch no GitHub} (ex: \texttt{feature/leitura-gps})
+        \item \textbf{Atualizar repositório local:} \texttt{git pull}
+        \item \textbf{Alternar para a branch:} \texttt{git switch feature/leitura-gps}
+        \item \textbf{Desenvolver:} Escrever o código, testar, etc.
+        \item \textbf{Atualizar branch (se a main mudou):} \texttt{git rebase main} (resolver eventuais conflitos)
+        \item \textbf{Preparar alterações:} \texttt{git add .} (ou arquivo específico)
+        \item \textbf{Salvar:} \texttt{git commit -m "feat(telemetria): rotina do GPS"}
+        \item \textbf{Enviar:} \texttt{git push origin feature/leitura-gps}
+        \item \textbf{Abrir o PR} (Pull Request) no GitHub.
+        \item \textbf{Realizar o Merge} (após aprovação no Code Review).
+    \end{enumerate}
+\end{frame}
+
+\end{document}
