@@ -3,6 +3,7 @@ import random
 
 # Importem as funções de alarme aqui em baixo
 import src.alarme_velocidade as ver_velocidade
+import src.alarmerpm as aviso_RPM
 # ===========================================
 
 
@@ -46,6 +47,7 @@ def exibir_painel(rpm, velocidade, temp_cvt, bateria):
 
     # Coloquem os alarmes aqui em baixo
     ver_velocidade(velocidade)
+    aviso_RPM(rpm)
     # ===================================
 
     print("Aperte Ctrl+C para sair.\n")
