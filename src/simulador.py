@@ -1,6 +1,11 @@
 import time
 import random
 
+# Importem as funções de alarme aqui em baixo
+
+# ===========================================
+
+
 # Variáveis globais para a Fase 2 (Linear)
 # Na Fase 1, elas ainda não serão usadas.
 rpm_atual = 1000
@@ -12,17 +17,17 @@ def ler_sensores():
     """
     Função responsável por ler (ou simular) os dados dos sensores do carro.
     """
-    # G1: Motor (Marcha lenta ~1000, limite ~3800)
-    rpm = random.randint(1000, 3800)
+    # G1: Motor (Marcha lenta ~1000, limite ~4000)
+    rpm = random.randint(1000, 4000)
     
     # G2: Velocidade em km/h
-    velocidade = random.randint(0, 60)
+    velocidade = random.randint(0, 70)
     
     # G3: Temperatura da CVT em °C
-    temp_cvt = random.randint(40, 90)
+    temp_cvt = random.randint(40, 100)
     
     # G4: Nível da Bateria em %
-    bateria = random.randint(10, 100)
+    bateria = random.randint(0, 100)
     
     return rpm, velocidade, temp_cvt, bateria
 
@@ -38,6 +43,11 @@ def exibir_painel(rpm, velocidade, temp_cvt, bateria):
     print(f"Temp. CVT:    {temp_cvt} °C")
     print(f"Bateria:      {bateria} %")
     print("-" * 40)
+
+    # Coloquem os alarmes aqui em baixo
+
+    # ===================================
+
     print("Aperte Ctrl+C para sair.\n")
 
 def main():
