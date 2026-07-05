@@ -6,3 +6,4 @@ Vídeo de configuração de ambiente:
 Vídeo aula:
 
 Aula ministrada pelo lambari no dia 05/07/2026
+Benjamin esteve aqui
